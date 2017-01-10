@@ -21,7 +21,7 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="Message">
+<mapper namespace="com.imooc.dao.MessageDao">
 	<!-- 实体类映射设置 -->
   <resultMap id="Message" type="com.imooc.model.Message" >
     <id column="ID" jdbcType="INTEGER" property="id"/>
@@ -29,10 +29,6 @@
     <result column="DESCRIPTION" jdbcType="VARCHAR" property="description"/>
     <result column="CONTENT" jdbcType="VARCHAR" property="content"/>
   </resultMap>
-
-
-
-
 
 <!-- 和message类相关的sql语句操作配置 -->
 								<!-- 传入参数的类型parameterType为Message类型 -->  

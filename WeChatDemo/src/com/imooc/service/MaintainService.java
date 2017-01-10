@@ -3,7 +3,7 @@ package com.imooc.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.imooc.dao.MessageDao;
+import com.imooc.dao.MessageDaoImpl;
 
 /**
  * 删除方法
@@ -17,7 +17,7 @@ public class MaintainService {
 	 */
 	public void deleteOne(String id) {
 		if(id != null && !"".equals(id.trim())) {
-			MessageDao messageDao = new MessageDao();
+			MessageDaoImpl messageDao = new MessageDaoImpl();
 			messageDao.deleteOne(Integer.valueOf(id));
 		}
 	}
@@ -27,7 +27,7 @@ public class MaintainService {
 	 * @param ids
 	 */
 	public void deleteBatch(String[] ids) {
-		MessageDao messageDao = new MessageDao();
+		MessageDaoImpl messageDao = new MessageDaoImpl();
 		
 			List<Integer> list = new ArrayList<Integer>();//把前端接收的一串id数组转化为list
 			for(String id : ids) {

@@ -4,8 +4,8 @@ package com.imooc.service;
 import java.util.List;
 import java.util.Random;
 
-import com.imooc.dao.CommandDao;
-import com.imooc.dao.MessageDao;
+import com.imooc.dao.CommandDaoImpl;
+import com.imooc.dao.MessageDaoImpl;
 import com.imooc.model.Command;
 import com.imooc.model.CommandContent;
 import com.imooc.model.Iconst;
@@ -19,7 +19,7 @@ import com.imooc.model.Message;
 public class QueryService {
 	
 	public List<Message> queryMessageList(String command,String description) {
-		MessageDao messageDao = new MessageDao();
+		MessageDaoImpl messageDao = new MessageDaoImpl();
 		return messageDao.queryMessageList(command, description);
 	}
 	
@@ -29,7 +29,7 @@ public class QueryService {
 	 * @return
 	 */
 	public String queryByCommand(String command) {
-		CommandDao commandDao=new CommandDao();
+		CommandDaoImpl commandDao=new CommandDaoImpl();
 		List<Command> contentList;
 		if(Iconst.MORE_COMMAND.equals(command)) {
 			contentList = commandDao.queryCommandList(null, null);
