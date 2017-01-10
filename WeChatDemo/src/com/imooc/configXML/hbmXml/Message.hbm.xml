@@ -38,7 +38,7 @@
 	    <if test="description != null and !&quot;&quot;.equals(description.trim())">and DESCRIPTION like '%' #{description} '%'</if>
     </where>
   </select>
-  <!-- 传入参数的类型为基本类型int型，那么括号里面取值直接写 _parameter-->
+  <!-- 传入参数的类型为基本类型int型， 那么括号里面取值直接写 _parameter-->
   <delete id="deleteOne" parameterType="int">
   	delete from MESSAGE where ID = #{_parameter}
   </delete>
