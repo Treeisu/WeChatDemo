@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+       Copyright 2009-2012 the original author or authors.
+
+       Licensed under the Apache License, Version 2.0 (the "License");
+       you may not use this file except in compliance with the License.
+       You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+       Unless required by applicable law or agreed to in writing, software
+       distributed under the License is distributed on an "AS IS" BASIS,
+       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       See the License for the specific language governing permissions and
+       limitations under the License.
+
+-->
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Message">
+	<!-- 实体类映射设置 -->
+  <resultMap id="Message" type="com.imooc.model.Message" >
+    <id column="ID" jdbcType="INTEGER" property="id"/>
+    <result column="COMMAND" jdbcType="VARCHAR" property="command"/>
+    <result column="DESCRIPTION" jdbcType="VARCHAR" property="description"/>
+    <result column="CONTENT" jdbcType="VARCHAR" property="content"/>
+  </resultMap>
+
+
+
+
+
+<!-- 和message类相关的sql语句操作配置 -->
+								<!-- 传入参数的类型parameterType为Message类型 -->  
+   <select id="queryMessageList" parameterType="com.imooc.model.Message" resultMap="Message">select ID,COMMAND,DESCRIPTION,CONTENT from MESSAGE
+    <where>
+    	<if test="command != null and !&quot;&quot;.equals(command.trim())">and COMMAND = #{command}</if>
+	    <if test="description != null and !&quot;&quot;.equals(description.trim())">and DESCRIPTION like '%' #{description} '%'</if>
+    </where>
+  </select>
+  <!-- 传入参数的类型为基本类型int型，那么括号里面取值直接写 _parameter-->
+  <delete id="deleteOne" parameterType="int">
+  	delete from MESSAGE where ID = #{_parameter}
+  </delete>
+  <!-- 传入参数的类型为util下面的List型，用foreach去处理list数据;collection表示需要循环的类型是什么；item表示遍历出来的单个id数据；separator的作用是在众多id之间加个逗号作为分隔拼接-->
+  <delete id="deleteBatch" parameterType="java.util.List">
+  	delete from MESSAGE where ID in(<foreach collection="list" item="item" separator=",">#{item}</foreach>)
+  </delete>
+</mapper>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Command">
+  <resultMap type="com.imooc.model.Command" id="Command">
+    <id column="ID" jdbcType="INTEGER" property="id"/>
+    <result column="NAME" jdbcType="VARCHAR" property="name"/>
+    <result column="DESCRIPTION" jdbcType="VARCHAR" property="description"/>
+    <collection property="contentList"  resultMap="CommandContent.Content"/><!-- resultMap指的是引用的哪张表，NameSpace.表名 -->
+  </resultMap>
+  
+  <select id="queryCommandList" parameterType="com.imooc.model.Command" resultMap="Command">
+    select a.ID,a.NAME,a.DESCRIPTION,b.ID ID2,b.CONTENT,b.COMMAND_ID from COMMAND a left join COMMAND_CONTENT b on a.ID=b.COMMAND_ID
+    <!-- 由于两张表查询出来的结果都会有名字相同的ID这个列，所以至少得有一个取别名。与之对应的表的映射colum属性也需要换成别名； -->
+    <where>
+    	<if test="name != null and !&quot;&quot;.equals(name.trim())">and a.NAME=#{name}</if>
+	    <if test="description != null and !&quot;&quot;.equals(description.trim())">and a.DESCRIPTION like '%' #{description} '%'</if>
+    </where>
+  </select>
+ 						<!-- useGeneratedKeys可以取到自动生成主键的值，然后可以把取到的值映射到对应的列。 -->
+  <insert id="insertCommand" useGeneratedKeys="true" keyProperty="id" parameterType="com.imooc.model.Command">
+  		insert into COMMAND(NAME,DESCRIPTION) values(#{name},#{description});
+  </insert>
+</mapper>
