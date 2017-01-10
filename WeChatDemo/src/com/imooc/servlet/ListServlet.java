@@ -33,7 +33,9 @@ public class ListServlet extends HttpServlet {
 		req.setAttribute("messageList", list);
 		req.getRequestDispatcher("/WEB-INF/jsp/background/list.jsp").forward(req, resp);
 	}
-	 
+	 /**
+	  * 
+	  */
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
