@@ -70,11 +70,20 @@
 					</table>
 		
 					<div class='page fix'>
-						共 <b>4</b> 条 <a href='###' class='first'>首页</a> <a href='###'
-							class='pre'>上一页</a> 当前第<span>1/1</span>页 <a href='###'
-							class='next'>下一页</a> <a href='###' class='last'>末页</a> 跳至&nbsp;<input
-							type='text' value='1' class='allInput w28' />&nbsp;页&nbsp; <a
-							href='###' class='go'>GO</a>
+					<input type="hidden" id="currentPage" name="currentPage" value="${page.currentPage}"/>
+						共 <b>${page.totalNumber}</b> 条
+							<c:if test="${page.currentPage != 1}">
+								<a href="javascript:changeCurrentPage('1')" class='first'>首页</a>
+								<a href="javascript:changeCurrentPage('${page.currentPage-1}')" class='pre'>上一页</a>
+							</c:if>
+							<!-- 当前第2/5页 -->
+							当前第<span>${page.currentPage}/${page.pageCount}</span>页
+							<c:if test="${page.currentPage != page.pageCount}">
+								<a href="javascript:changeCurrentPage('${page.currentPage+1}')" class='next'>下一页</a>
+								<a href="javascript:changeCurrentPage('${page.pageCount}')" class='last'>末页</a>
+							</c:if>
+							跳至&nbsp;<input id="currentPageText" type='text' value='${page.currentPage}' class='allInput w28' />&nbsp;页&nbsp;
+							<a href="javascript:changeCurrentPage($('#currentPageText').val())" class='go'>GO</a>
 					</div>
 				</div>
 			</div>

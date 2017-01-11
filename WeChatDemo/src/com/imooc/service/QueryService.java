@@ -1,9 +1,13 @@
 package com.imooc.service;
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.regex.Pattern;
 
+import com.imooc.UtilEntity.Page;
 import com.imooc.dao.CommandDaoImpl;
 import com.imooc.dao.MessageDaoImpl;
 import com.imooc.model.Command;
@@ -18,13 +22,36 @@ import com.imooc.model.Message;
  */
 public class QueryService {
 	
-	public List<Message> queryMessageList(String command,String description) {
+	public List<Message> queryMessageList(String command,String description,Page page) {
+		//封装message对象
+		Message message=new Message();
+		message.setCommand(command);
+		message.setDescription(description);
 		MessageDaoImpl messageDao = new MessageDaoImpl();
-		return messageDao.queryMessageList(command, description);
+		int totalNumber=messageDao.count(message);
+		page.setTotalNumber(totalNumber);
+		page.count();
+		//由于查询条件不能有两种类型的参数，那么传入的两个对象都需要封装成map对象；
+		Map<String, Object> messageAndPage=new HashMap<String, Object>();
+		messageAndPage.put("message", message);
+		messageAndPage.put("page", page);
+		return messageDao.queryMessageList(messageAndPage);
+	}
+	public List<Message> queryMessageListbyPage(String command,String description,Page page) {
+		//封装message对象
+		Message message=new Message();
+		message.setCommand(command);
+		message.setDescription(description);
+		MessageDaoImpl messageDao = new MessageDaoImpl();
+		//由于查询条件不能有两种类型的参数，那么传入的两个对象都需要封装成map对象；
+		Map<String, Object> messageAndPage=new HashMap<String, Object>();
+		messageAndPage.put("message", message);
+		messageAndPage.put("page", page);
+		return messageDao.queryMessageListbyPage(messageAndPage);
 	}
 	
 	/**
-	 *  查询方法，聊天界面 通过输入的指令 内容
+	 *  查询方法，聊天界面 通过输入的指令 内容   一对多查询
 	 * @param command
 	 * @return
 	 */
@@ -60,6 +87,18 @@ public class QueryService {
 		}
 		
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 //	public String queryByCommand(String command) {
 //	CommandDao commandDao = new CommandDao();

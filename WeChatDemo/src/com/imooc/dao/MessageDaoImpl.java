@@ -3,6 +3,7 @@ package com.imooc.dao;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -13,8 +14,7 @@ import com.imooc.model.Message;
 public class MessageDaoImpl{
 	DBAccess dbAccess = new DBAccess();
 	SqlSession sqlSession=null;
-
-	public List<Message> queryMessageList(String command,String description) {
+	public List<Message> queryMessageList(Map<String, Object> map) {
 		
 		List<Message> messagelist=new ArrayList<Message>();
 		try {
@@ -25,18 +25,36 @@ public class MessageDaoImpl{
 			 * 这样就可以传入一个对象进行查询
 			 */
 			MessageDao messageDao=sqlSession.getMapper(MessageDao.class);
-			Message message=new Message();
-			message.setCommand(command);
-			message.setDescription(description);
-			messagelist=messageDao.queryMessageList(message);//hbm.xml中已经配置好的方法，sqlsession执行查询操作
+			messagelist=messageDao.queryMessageList(map);//hbm.xml中已经配置好的方法，sqlsession执行查询操作
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			/*if(sqlSession!=null){
+			if(sqlSession!=null){
 				sqlSession.close();
-			}*/
-			sqlSession.close();
+			}
+		}
+		return messagelist;
+	}
+	public List<Message> queryMessageListbyPage(Map<String, Object> map) {
+		
+		List<Message> messagelist=new ArrayList<Message>();
+		try {
+			sqlSession=dbAccess.getSqlSession();//通过公共类dbAccess去获得一次会话sqlsession
+			/**
+			 * 由于mybatis的sql配置只接收一个参数，
+			 * 为了解决查询时传入两个条件的情况，就对这两个条件进行封装；
+			 * 这样就可以传入一个对象进行查询
+			 */
+			MessageDao messageDao=sqlSession.getMapper(MessageDao.class);
+			messagelist=messageDao.queryMessageListbyPage(map);//hbm.xml中已经配置好的方法，sqlsession执行查询操作
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if(sqlSession!=null){
+				sqlSession.close();
+			}
 		}
 		return messagelist;
 	}
@@ -80,5 +98,24 @@ public class MessageDaoImpl{
 			}
 		}
 	}
-
+	/**
+	 * 根据查询条件查询消息列表的条数
+	 */
+	public int count(Message message) {
+		int totalNumber = 0;
+		try {
+			sqlSession = dbAccess.getSqlSession();
+			// 通过sqlSession执行SQL语句
+			MessageDao messageDao = sqlSession.getMapper(MessageDao.class);
+			totalNumber = messageDao.count(message);//数据库中返回所有条数；
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if(sqlSession != null) {
+				sqlSession.close();
+			}
+		}
+		return totalNumber;
+	}
 }

@@ -32,11 +32,26 @@
 
 <!-- 和message类相关的sql语句操作配置 -->
 								<!-- 传入参数的类型parameterType为Message类型 -->  
-   <select id="queryMessageList" parameterType="com.imooc.model.Message" resultMap="Message">select ID,COMMAND,DESCRIPTION,CONTENT from MESSAGE
+   <!-- <select id="queryMessageList" parameterType="com.imooc.model.Message" resultMap="Message">select ID,COMMAND,DESCRIPTION,CONTENT from MESSAGE
     <where>
     	<if test="command != null and !&quot;&quot;.equals(command.trim())">and COMMAND = #{command}</if>
 	    <if test="description != null and !&quot;&quot;.equals(description.trim())">and DESCRIPTION like '%' #{description} '%'</if>
     </where>
+  </select> -->
+  <select id="queryMessageList" parameterType="java.util.Map" resultMap="Message">select ID,COMMAND,DESCRIPTION,CONTENT from MESSAGE
+    <where>
+    	<if test="message.command != null and !&quot;&quot;.equals(command.trim())">and COMMAND = #{message.command}</if>
+	    <if test="message.description != null and !&quot;&quot;.equals(description.trim())">and DESCRIPTION like '%' #{message.description} '%'</if>
+    </where>
+    order by ID limit #{page.dbIndex},#{page.dbNumber}
+  </select>
+  
+  <select id="queryMessageListByPage" parameterType="java.util.Map" resultMap="Message">select ID,COMMAND,DESCRIPTION,CONTENT from MESSAGE
+    <where>
+    	<if test="message.command != null and !&quot;&quot;.equals(message.command.trim())">and COMMAND=#{message.command}</if>
+	    <if test="message.description != null and !&quot;&quot;.equals(message.description.trim())">and DESCRIPTION like '%' #{message.description} '%'</if>
+   </where>
+    order by ID
   </select>
   <!-- 传入参数的类型为基本类型int型， 那么括号里面取值直接写 _parameter-->
   <delete id="deleteOne" parameterType="int">
@@ -46,4 +61,11 @@
   <delete id="deleteBatch" parameterType="java.util.List">
   	delete from MESSAGE where ID in(<foreach collection="list" item="item" separator=",">#{item}</foreach>)
   </delete>
+  
+  <select id="count" parameterType="com.imooc.model.Message" resultType="int">select count(*) from MESSAGE
+    <where>
+    	<if test="command != null and !&quot;&quot;.equals(command.trim())">and COMMAND = #{command}</if>
+	    <if test="description != null and !&quot;&quot;.equals(description.trim())">and DESCRIPTION like '%' #{description} '%'</if>
+    </where>
+  </select>
 </mapper>
