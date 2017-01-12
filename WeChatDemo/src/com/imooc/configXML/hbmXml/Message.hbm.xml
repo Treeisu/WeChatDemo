@@ -40,16 +40,16 @@
   </select> -->
   <select id="queryMessageList" parameterType="java.util.Map" resultMap="Message">select ID,COMMAND,DESCRIPTION,CONTENT from MESSAGE
     <where>
-    	<if test="message.command != null and !&quot;&quot;.equals(command.trim())">and COMMAND = #{message.command}</if>
-	    <if test="message.description != null and !&quot;&quot;.equals(description.trim())">and DESCRIPTION like '%' #{message.description} '%'</if>
+    	<if test="message.command != null and !&quot;&quot;.equals(message.command.trim())">and COMMAND = #{message.command}</if>
+	    <if test="message.description != null and !&quot;&quot;.equals(message.description.trim())">and DESCRIPTION like '%' #{message.description} '%'</if>
     </where>
     order by ID limit #{page.dbIndex},#{page.dbNumber}
   </select>
   
   <select id="queryMessageListByPage" parameterType="java.util.Map" resultMap="Message">select ID,COMMAND,DESCRIPTION,CONTENT from MESSAGE
     <where>
-    	<if test="message.command != null and !&quot;&quot;.equals(message.command.trim())">and COMMAND=#{message.command}</if>
-	    <if test="message.description != null and !&quot;&quot;.equals(message.description.trim())">and DESCRIPTION like '%' #{message.description} '%'</if>
+    	<if test="message.command != null and !&quot;&quot;.equals(message.command.trim())">and message.COMMAND=#{message.command}</if>
+	    <if test="message.description != null and !&quot;&quot;.equals(message.description.trim())">and message.DESCRIPTION like '%' #{message.description} '%'</if>
    </where>
     order by ID
   </select>

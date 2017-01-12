@@ -30,13 +30,14 @@ public class ListServlet extends HttpServlet {
 		String description=req.getParameter("description");
 		String currentPage=req.getParameter("currentPage");
 		//封装page对象
-		Page page=new Page();
-		Pattern pattern=Pattern.compile("[0-9],{1,9}");
-		if(currentPage == null || !pattern.matcher(currentPage).matches()){
+		// 创建分页对象
+		Page page = new Page();
+		Pattern pattern = Pattern.compile("[0-9]{1,9}");
+		if(currentPage == null ||  !pattern.matcher(currentPage).matches()) {
 			page.setCurrentPage(1);
-		}else{
+		} else {
 			page.setCurrentPage(Integer.valueOf(currentPage));
-		} 
+		}
 		req.setAttribute("command", command);
 		req.setAttribute("description", description);
 		QueryService queryService=new QueryService();
