@@ -11,7 +11,7 @@ import com.imooc.db.DBAccess;
 import com.imooc.model.CommandContent;
 
 /**
- * 和command_content表相关的数据库操作
+ * 和command_content 表相关的数据库操作
  */
 public class CommandContentDaoImpl {
 	DBAccess dbAccess = new DBAccess();
