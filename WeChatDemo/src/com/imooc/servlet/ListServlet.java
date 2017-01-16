@@ -30,7 +30,7 @@ public class ListServlet extends HttpServlet {
 		String description=req.getParameter("description");
 		String currentPage=req.getParameter("currentPage");
 		//封装page对象
-		// 创建分页对象
+		// 创建分页对象，把页面传来的 当前页 参数设置给page对象，每页显示条数page中默认设置是5
 		Page page = new Page();
 		Pattern pattern = Pattern.compile("[0-9]{1,9}");
 		if(currentPage == null ||  !pattern.matcher(currentPage).matches()) {
@@ -41,7 +41,7 @@ public class ListServlet extends HttpServlet {
 		req.setAttribute("command", command);
 		req.setAttribute("description", description);
 		QueryService queryService=new QueryService();
-		List<Message> list=queryService.queryMessageList(command,description,page);
+		List<Message> list=queryService.queryMessageListbyPage(command,description,page);
 		req.setAttribute("messageList", list);
 		req.setAttribute("page", page);
 		req.getRequestDispatcher("/WEB-INF/jsp/background/list.jsp").forward(req, resp);

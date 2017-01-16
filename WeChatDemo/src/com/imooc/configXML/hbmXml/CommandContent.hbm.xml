@@ -8,5 +8,10 @@
     <result column="CONTENT" jdbcType="VARCHAR" property="content"/>
     <result column="COMMAND_ID" jdbcType="VARCHAR" property="commandId"/>
   </resultMap>
- 
+  <insert id="insertBatch" parameterType="java.util.List">
+  	insert into COMMAND_CONTENT(CONTENT,COMMAND_ID) values
+  	<foreach collection="list" item="item" separator=","> <!--values('内容1','id1'),('内容2','id2'),('内容3','id3')，所以得添加上separator进行拼接-->
+  		(#{item.content},#{item.commandId})
+  	</foreach>
+  </insert>
 </mapper>

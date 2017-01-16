@@ -15,6 +15,10 @@
 		name="useColumnLabel" value="true"/> </settings> <typeAliases> <typeAlias 
 		alias="UserAlias" type="org.apache.ibatis.submitted.complex_property.User"/> 
 		</typeAliases>  -->
+	<plugins>
+		<plugin interceptor="com.imooc.interceptor.pageInterceptor"></plugin>
+	</plugins>
+	
 	<environments default="development">
 		<environment id="development">
 			<transactionManager type="JDBC">
@@ -34,5 +38,6 @@
 		<mapper resource="com/imooc/configXML/hbmXml/Command.hbm.xml" />
 		<mapper resource="com/imooc/configXML/hbmXml/CommandContent.hbm.xml" />
 	</mappers>
-
+	
+	
 </configuration>

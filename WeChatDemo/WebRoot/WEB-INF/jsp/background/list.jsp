@@ -31,7 +31,7 @@
 					<a class="btn03" href="#">新 增</a>&nbsp;&nbsp;&nbsp;&nbsp;
 					<a class="btn03" href="javascript:deleteBatch('<%=basePath%>')">删 除</a>
 				</p>
-				<!-- table1是用来查询的 -->
+				<!-- table1是用来查询输入的 -->
 				
 					<table class="tab1">
 						<tbody>

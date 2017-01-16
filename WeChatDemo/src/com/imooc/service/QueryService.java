@@ -27,27 +27,38 @@ public class QueryService {
 		Message message=new Message();
 		message.setCommand(command);
 		message.setDescription(description);
-		MessageDaoImpl messageDao = new MessageDaoImpl();
-		int totalNumber=messageDao.count(message);
+		MessageDaoImpl messageDaoImpl = new MessageDaoImpl();
+		
+		//执行查询总条数的方法，设置完所有的page对象参数
+		int totalNumber=messageDaoImpl.count(message);
 		page.setTotalNumber(totalNumber);
-		page.count();
+		page.count();//这样page对象里面的参数全部设置完毕
+		
 		//由于查询条件不能有两种类型的参数，那么传入的两个对象都需要封装成map对象；
 		Map<String, Object> messageAndPage=new HashMap<String, Object>();
 		messageAndPage.put("message", message);
 		messageAndPage.put("page", page);
-		return messageDao.queryMessageList(messageAndPage);
+		return messageDaoImpl.queryMessageList(messageAndPage);
 	}
+	/**
+	 * 第二种分页的实现，通过拦截器
+	 * @param command
+	 * @param description
+	 * @param page
+	 * @return
+	 */
 	public List<Message> queryMessageListbyPage(String command,String description,Page page) {
 		//封装message对象
 		Message message=new Message();
 		message.setCommand(command);
 		message.setDescription(description);
-		MessageDaoImpl messageDao = new MessageDaoImpl();
+		MessageDaoImpl messageDaoImpl = new MessageDaoImpl();
 		//由于查询条件不能有两种类型的参数，那么传入的两个对象都需要封装成map对象；
 		Map<String, Object> messageAndPage=new HashMap<String, Object>();
 		messageAndPage.put("message", message);
 		messageAndPage.put("page", page);
-		return messageDao.queryMessageListbyPage(messageAndPage);
+		//注意！！！这里page对象的参数并没有设置完全，只有一个当前页，以及页面显示条数，拦截器拦截下来需要进行设置
+		return messageDaoImpl.queryMessageListbyPage(messageAndPage);
 	}
 	
 	/**

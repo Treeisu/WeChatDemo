@@ -36,6 +36,10 @@ public class MessageDaoImpl{
 		}
 		return messagelist;
 	}
+	/**
+	 * 另一种分页实现，利用拦截器实现，此查询方法在数据库中不进行limit拼接
+	 * 根据查询条件分页查询消息列表
+	 */
 	public List<Message> queryMessageListbyPage(Map<String, Object> map) {
 		
 		List<Message> messagelist=new ArrayList<Message>();
@@ -80,7 +84,7 @@ public class MessageDaoImpl{
 	}
 	
 	/**
-	 * 单条删除
+	 * 多条删除
 	 */
 	public void deleteBatch(List<Integer> list) {
 		try {
